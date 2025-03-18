@@ -1,0 +1,20 @@
+package com.example.travelagency.Id;
+
+import jakarta.persistence.Embeddable;
+import java.io.Serializable;
+import java.util.Objects;
+
+@Embeddable
+public class TransportTourId implements Serializable {
+
+    private Long tourId;
+    private Long transportId;
+
+    public TransportTourId() {}
+
+    public TransportTourId(Long tourId, Long transportId) {
+        this.tourId = tourId;
+        this.transportId = transportId;
+    }
+
+}
