@@ -1,5 +1,6 @@
 package com.example.travelagency.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -33,11 +34,18 @@ public class Booking {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
-    @ManyToOne
+    @Column(name= "tour_id", nullable = false)
+    private Long tourId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore // игнорирует поле при сериализации
     private Payment payment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore // игнорирует поле при сериализации
     @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Client client;
+
+
 }

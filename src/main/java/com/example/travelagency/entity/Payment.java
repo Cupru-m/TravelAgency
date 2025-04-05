@@ -21,7 +21,7 @@ public class Payment {
     private LocalDate paymentDate;
 
     @Column(name = "amount", nullable = false)
-    private String amount;
+    private int amount;
 
     @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
@@ -29,4 +29,6 @@ public class Payment {
     @Column(name = "currency", nullable = false)
     private String currency;
 
+    @Column(name="booking_id")
+    private Integer booking_id;
 }

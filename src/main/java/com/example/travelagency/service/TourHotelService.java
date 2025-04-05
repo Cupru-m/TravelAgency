@@ -18,7 +18,9 @@ public class TourHotelService {
     public TourHotelService(TourHotelRepository tourHotelRepository) {
         this.tourHotelRepository = tourHotelRepository;
     }
-
+    public List<TourHotelId> getAllTourHotelId(){
+        return tourHotelRepository.findAllId();
+    }
     public List<TourHotel> getAllTourHotels() {
         return tourHotelRepository.findAll();
     }

@@ -1,6 +1,7 @@
 package com.example.travelagency.controllers;
 
 import com.example.travelagency.Id.TransportTourId;
+import com.example.travelagency.dtos.TransportTourDTO;
 import com.example.travelagency.entity.TransportTour;
 import com.example.travelagency.service.TransportTourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/transport-tours")
+@RequestMapping("/api/transport_tour")
 public class TransportTourController {
 
     private final TransportTourService transportTourService;
@@ -23,8 +24,8 @@ public class TransportTourController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransportTour>> getAllTransportTours() {
-        List<TransportTour> transportTours = transportTourService.getAllTransportTours();
+    public ResponseEntity<List<TransportTourDTO>> getAllTransportTours() {
+        List<TransportTourDTO> transportTours = transportTourService.getAllTransportObjects();
         return new ResponseEntity<>(transportTours, HttpStatus.OK);
     }
 

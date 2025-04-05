@@ -1,6 +1,7 @@
 package com.example.travelagency.entity;
 
 import com.example.travelagency.Id.TourGuideId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,13 +13,15 @@ public class TourGuide {
     @EmbeddedId
     private TourGuideId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("tourId")  // Связываем tourId из TourGuideId
     @JoinColumn(name = "tour_id", nullable = false)
+    @JsonIgnore
     private Tour tour;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("guideId")  // Связываем guideId из TourGuideId
     @JoinColumn(name = "guide_id", nullable = false)
+    @JsonIgnore
     private Guide guide;
 }

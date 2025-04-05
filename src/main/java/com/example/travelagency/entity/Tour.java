@@ -13,7 +13,7 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Тур_id_seq")
     @SequenceGenerator(name = "Тур_id_seq", sequenceName = "Тур_id_seq", allocationSize = 1)
-    @Column(name = "id_тура")
+    @Column(name = "tour_id")
     private Integer id;
 
     @Column(name = "title", nullable = false, unique = true)

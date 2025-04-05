@@ -17,13 +17,13 @@ public class Hotel {
     private String title;
 
     @Column(name = "rating", nullable = false)
-    private String rating;
+    private Integer rating;
 
     @Column(name = "phone_number", nullable = false, unique = true)
     private Long phoneNumber;
 
     @Column(name = "price", nullable = false)
-    private String price;
+    private int price;
 
     // Getters and Setters
     // ...

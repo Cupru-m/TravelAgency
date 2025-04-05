@@ -22,6 +22,10 @@ public class TourGuideService {
     public List<TourGuide> getAllTourGuides() {
         return tourGuideRepository.findAll();
     }
+    public List<TourGuideId> getAllTourGiudeId()
+    {
+        return tourGuideRepository.findAllId();
+    }
 
     public Optional<TourGuide> getTourGuideById(TourGuideId id) {
         return tourGuideRepository.findById(id);

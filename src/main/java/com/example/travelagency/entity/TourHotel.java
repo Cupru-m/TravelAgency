@@ -1,6 +1,7 @@
 package com.example.travelagency.entity;
 
 import com.example.travelagency.Id.TourHotelId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,13 +13,15 @@ public class TourHotel {
     @EmbeddedId
     private TourHotelId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("tourId")
-    @JoinColumn(name = "tour_id", referencedColumnName = "id_тура")
+    @JoinColumn(name = "tour_id", referencedColumnName = "tour_id")
+    @JsonIgnore
     private Tour tour;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("hotelId")
+    @JsonIgnore
     @JoinColumn(name = "hotel_id", referencedColumnName = "id")
     private Hotel hotel;
 

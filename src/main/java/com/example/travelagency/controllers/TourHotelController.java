@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tour-hotels")
+@RequestMapping("/api/tour_hotel")
 public class TourHotelController {
 
     private final TourHotelService tourHotelService;
@@ -23,8 +23,8 @@ public class TourHotelController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TourHotel>> getAllTourHotels() {
-        List<TourHotel> tourHotels = tourHotelService.getAllTourHotels();
+    public ResponseEntity<List<TourHotelId>> getAllTourHotels() {
+        List<TourHotelId> tourHotels = tourHotelService.getAllTourHotelId();
         return new ResponseEntity<>(tourHotels, HttpStatus.OK);
     }
 

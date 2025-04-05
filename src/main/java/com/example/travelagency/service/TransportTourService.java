@@ -1,6 +1,7 @@
 package com.example.travelagency.service;
 
 import com.example.travelagency.Id.TransportTourId;
+import com.example.travelagency.dtos.TransportTourDTO;
 import com.example.travelagency.entity.TransportTour;
 import com.example.travelagency.repository.TransportTourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,9 @@ public class TransportTourService {
     public List<TransportTour> getAllTransportTours() {
         return transportTourRepository.findAll();
     }
-
+    public List<TransportTourDTO> getAllTransportObjects(){
+        return transportTourRepository.findAllObjects();
+    }
     public Optional<TransportTour> getTransportTourById(TransportTourId id) {
         return transportTourRepository.findById(id);
     }

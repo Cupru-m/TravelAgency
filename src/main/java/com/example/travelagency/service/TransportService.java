@@ -31,7 +31,7 @@ public class TransportService {
     }
 
     public Transport updateTransport(Integer id, Transport transportDetails) {
-        transportDetails.setId(id);
+        transportDetails.setTransportId(id);
         return transportRepository.save(transportDetails);
     }
 
