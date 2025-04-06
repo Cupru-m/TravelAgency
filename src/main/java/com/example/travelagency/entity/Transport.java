@@ -12,7 +12,6 @@ public class Transport {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Транспорт_id_seq")
     @SequenceGenerator(name = "Транспорт_id_seq", sequenceName = "Транспорт_id_seq", allocationSize = 1)
     @Column(name = "transport_id")
-
     private Integer transportId;
 
     @Column(name = "type", nullable = false)

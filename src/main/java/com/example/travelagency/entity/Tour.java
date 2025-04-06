@@ -14,7 +14,7 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Тур_id_seq")
     @SequenceGenerator(name = "Тур_id_seq", sequenceName = "Тур_id_seq", allocationSize = 1)
     @Column(name = "tour_id")
-    private Integer id;
+    private Integer tourId;
 
     @Column(name = "title", nullable = false, unique = true)
     private String title;

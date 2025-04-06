@@ -31,7 +31,7 @@ public class TourService {
     }
 
     public Tour updateTour(Integer id, Tour tourDetails) {
-        tourDetails.setId(id);
+        tourDetails.setTourId(id);
         return tourRepository.save(tourDetails);
     }
 

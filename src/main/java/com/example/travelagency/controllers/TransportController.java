@@ -27,12 +27,12 @@ public class TransportController {
         return new ResponseEntity<>(transports, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Transport> getTransportById(@PathVariable Integer id) {
-        Optional<Transport> transport = transportService.getTransportById(id);
-        return transport.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Transport> getTransportById(@PathVariable Integer id) {
+//        Optional<Transport> transport = transportService.getTransportById(id);
+//        return transport.map(ResponseEntity::ok)
+//                .orElseGet(() -> ResponseEntity.notFound().build());
+//    }
 
     @PostMapping
     public ResponseEntity<Transport> createTransport(@RequestBody Transport transport) {

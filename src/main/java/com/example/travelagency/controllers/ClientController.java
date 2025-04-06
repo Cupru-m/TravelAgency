@@ -60,10 +60,4 @@ public class ClientController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    private Map<String, String> createColumn(String name, String type) {
-        Map<String, String> column = new HashMap<>();
-        column.put("name", name);
-        column.put("type", type);
-        return column;
-    }
 }
