@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.247a953e.css",
-    "main.js": "/static/js/main.56bda187.js",
+    "main.css": "/static/css/main.5903e056.css",
+    "main.js": "/static/js/main.a9abbe35.js",
     "static/js/453.77ff6119.chunk.js": "/static/js/453.77ff6119.chunk.js",
+    "static/media/frutiger-eco-2.webp": "/static/media/frutiger-eco-2.f7e44e62398dcc67948f.webp",
     "index.html": "/index.html",
-    "main.247a953e.css.map": "/static/css/main.247a953e.css.map",
-    "main.56bda187.js.map": "/static/js/main.56bda187.js.map",
+    "main.5903e056.css.map": "/static/css/main.5903e056.css.map",
+    "main.a9abbe35.js.map": "/static/js/main.a9abbe35.js.map",
     "453.77ff6119.chunk.js.map": "/static/js/453.77ff6119.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.247a953e.css",
-    "static/js/main.56bda187.js"
+    "static/css/main.5903e056.css",
+    "static/js/main.a9abbe35.js"
   ]
 }
