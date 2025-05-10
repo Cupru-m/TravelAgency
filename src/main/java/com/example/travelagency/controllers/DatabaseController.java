@@ -4,17 +4,28 @@ import com.example.travelagency.dtos.ColumnInfo;
 import com.example.travelagency.dtos.SqlQueryRequest;
 import com.example.travelagency.dtos.TableDataResponse;
 import com.example.travelagency.service.DatabaseService;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/database")
 public class DatabaseController {
 
     @Autowired
@@ -35,24 +46,6 @@ public class DatabaseController {
         }
     }
 
-    @GetMapping("/{tableName}/columns")
-    public List<ColumnInfo> getTableColumns(@PathVariable String tableName) throws SQLException {
-        try {
-            return databaseService.getTableColumns(tableName);
-        } catch (Exception e) {
-            throw new SQLException("Ошибка при получении столбцов: " + e.getMessage(), e);
-        }
-    }
-
-    @GetMapping("/{tableName}/rows")
-    public List<Map<String, Object>> getTableRows(@PathVariable String tableName) throws SQLException {
-        try {
-            return databaseService.getTableRows(tableName);
-        } catch (Exception e) {
-            throw new SQLException("Ошибка при получении строк: " + e.getMessage(), e);
-        }
-    }
-
     @PostMapping("/execute-sql-template")
     public ResponseEntity<TableDataResponse> executeSqlTemplate(@RequestBody Map<String, String> request) throws SQLException {
         try {
@@ -68,7 +61,6 @@ public class DatabaseController {
         }
     }
 
-    // Новый эндпоинт для выполнения SQL-запроса (только запрос)
     @PostMapping("/execute-sql-simple")
     public ResponseEntity<TableDataResponse> executeSqlQuerySimple(@RequestBody Map<String, String> request) throws SQLException {
         try {
@@ -83,8 +75,82 @@ public class DatabaseController {
         }
     }
 
-    @GetMapping("/database-info")
+    @GetMapping("/info")
     public Map<String, Object> getDatabaseInfo() {
         return databaseService.getDatabaseInfo();
+    }
+
+    @PostMapping("/backup")
+    public ResponseEntity<Map<String, String>> backupDatabase() throws IOException {
+        try {
+            databaseService.backupDatabase();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Резервная копия успешно создана");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new IOException("Ошибка при создании резервной копии: " + e.getMessage(), e);
+        }
+    }
+
+    @PostMapping("/restore")
+    public ResponseEntity<Map<String, String>> restoreDatabase() throws IOException {
+        try {
+            databaseService.restoreDatabase();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "База данных успешно восстановлена");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new IOException("Ошибка при восстановлении базы данных: " + e.getMessage(), e);
+        }
+    }
+    @PostMapping("/export-to-excel")
+    public ResponseEntity<org.springframework.core.io.Resource> exportToExcel(@RequestBody TableDataResponse tableData) throws IOException {
+        // Создаём новый Excel-файл
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Table Data");
+
+        // Заголовки
+        Row headerRow = sheet.createRow(0);
+        List<ColumnInfo> columns = tableData.getColumns();
+        for (int i = 0; i < columns.size(); i++) {
+            headerRow.createCell(i).setCellValue(columns.get(i).getName());
+        }
+
+        // Данные
+        List<Map<String, Object>> rows = tableData.getRows();
+        for (int i = 0; i < rows.size(); i++) {
+            Row row = sheet.createRow(i + 1);
+            Map<String, Object> rowData = rows.get(i);
+            for (int j = 0; j < columns.size(); j++) {
+                String columnName = columns.get(j).getName();
+                Object value = rowData.get(columnName);
+                if (value != null) {
+                    row.createCell(j).setCellValue(value.toString());
+                } else {
+                    row.createCell(j).setCellValue("");
+                }
+            }
+        }
+
+        // Записываем Excel в поток
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+
+        // Формируем ресурс
+        ByteArrayResource resource = new ByteArrayResource(outputStream.toByteArray());
+
+        // Настраиваем заголовки
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=table_data.xlsx");
+        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        headers.add(HttpHeaders.PRAGMA, "no-cache");
+        headers.add(HttpHeaders.EXPIRES, "0");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(outputStream.size())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 }
